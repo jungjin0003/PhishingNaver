@@ -70,20 +70,8 @@
                         </li>
                     </ul>
                     <form id="frmNIDLogin" name="frmNIDLogin" target="_top" autocomplete="off"
-                        action="https://nid.naver.com/nidlogin.login" method="POST">
-                        <input type="hidden" id="localechange" name="localechange" value="">
-                        <input type="hidden" name="dynamicKey" id="dynamicKey"
-                            value="WidWl2vDrs0WT6ymF32hK9YoC36hsnAQxGiB3__Uh2stnpC3xIi6uUtm_rhFkFEu7CcG19xTUBYn-GnofS03G4AgOV5PrCuSh-XDkJFWdKQ">
-                        <input type="hidden" name="encpw" id="encpw" value="">
-                        <input type="hidden" name="enctp" id="enctp" value="1">
-                        <input type="hidden" name="svctype" id="svctype" value="1">
-                        <input type="hidden" name="smart_LEVEL" id="smart_LEVEL" value="1">
-                        <input type="hidden" name="bvsd" id="bvsd" value="">
-                        <input type="hidden" name="encnm" id="encnm" value="">
-                        <input type="hidden" name="locale" id="locale" value="ko_KR">
-                        <input type="hidden" name="url" id="url" value="https://www.naver.com">
-
-
+                        action="/nidlogin.login" method="POST">
+                        <input type="hidden" id="mode" name="mode" value="form">
                         <ul class="panel_wrap">
                             <li class="panel_item" style="display: block;">
                                 <div class="panel_inner" role="tabpanel" aria-controls="loinid">
@@ -152,9 +140,11 @@
                                             <strong>비밀번호</strong>를 입력해 주세요.
                                         </div>
                                     </div>
-                                    <div class="login_error_wrap" id="err_common" style="display:none;">
+                                    <div class="login_error_wrap" id="err_common" style="display: {{ display }};">
                                         <div class="error_message" style="width:90%">
-
+                                            {% autoescape false %}
+                                            {{ error_msg }}
+                                            {% endautoescape %}
                                         </div>
                                     </div>
                                     <div class="btn_login_wrap">

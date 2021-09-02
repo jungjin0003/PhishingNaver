@@ -14,18 +14,7 @@ function Change_Menu(index) {
     tab.setAttribute('class', tab.getAttribute('class') + ' on');
     switch (index) {
         case 0:
-            loinid_string = `                    <input type="hidden" id="localechange" name="localechange" value="">
-                    <input type="hidden" name="dynamicKey" id="dynamicKey" value="wYjuw9g5uoNz7M6b3DcniypOraN1bTgIaFDpci85fUzckmzTvpgVHSyuZZoAHKcNw4rAn2lvh53_1-2ho02FlSyH0lfyHlum6k4rPIDSMJw">
-                    <input type="hidden" name="encpw" id="encpw" value="">
-<input type="hidden" name="enctp" id="enctp" value="1">
-<input type="hidden" name="svctype" id="svctype" value="1">
-<input type="hidden" name="smart_LEVEL" id="smart_LEVEL" value="1">
-<input type="hidden" name="bvsd" id="bvsd" value="">
-<input type="hidden" name="encnm" id="encnm" value="">
-<input type="hidden" name="locale" id="locale" value="ko_KR">
-<input type="hidden" name="url" id="url" value="https://nid.naver.com/user2/api/route?m=routePcMyInfo">
-
-
+            loinid_string = `                    <input type="hidden" id="mode" name="mode" value="form">
                     <ul class="panel_wrap">
                         <li class="panel_item" style="display: block;">
                             <div class="panel_inner" role="tabpanel" aria-controls="loinid">
@@ -109,17 +98,7 @@ function Change_Menu(index) {
             break;
 
         case 1:
-            ones_string = `                    <input type="hidden" id="localechange" name="localechange" value="">
-                    <input type="hidden" name="dynamicKey" id="dynamicKey" value="">
-                    <input type="hidden" name="mode" id="mode" value="number">
-<input type="hidden" name="svctype" id="svctype" value="1">
-<input type="hidden" name="smart_LEVEL" id="smart_LEVEL" value="1">
-<input type="hidden" name="bvsd" id="bvsd" value="">
-<input type="hidden" name="locale" id="locale" value="ko_KR">
-<input type="hidden" name="url" id="url" value="https://nid.naver.com/user2/api/route?m=routePcMyInfo">
-
-
-
+            ones_string = `                    <input type="hidden" id="mode" name="mode" value="ones">
                     <ul class="panel_wrap">
                         <li class="panel_item" style="display: block;">
 
@@ -162,16 +141,7 @@ function Change_Menu(index) {
             break;
 
         case 2:
-            qrcode_string = `                    <input type="hidden" id="localechange" name="localechange" value="">
-                    <input type="hidden" name="dynamicKey" id="dynamicKey" value="">
-                    <input type="hidden" name="mode" id="mode" value="qrcode">
-<input type="hidden" name="svctype" id="svctype" value="1">
-<input type="hidden" name="smart_LEVEL" id="smart_LEVEL" value="1">
-<input type="hidden" name="bvsd" id="bvsd" value="">
-<input type="hidden" name="locale" id="locale" value="ko_KR">
-<input type="hidden" name="url" id="url" value="https://nid.naver.com/user2/api/route?m=routePcMyInfo">
-
-
+            qrcode_string = `                    <input type="hidden" id="mode" name="mode" value="qrcode">
                     <ul class="panel_wrap">
                         <li class="panel_item" style="display: block;">
 
