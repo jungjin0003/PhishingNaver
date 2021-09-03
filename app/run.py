@@ -38,15 +38,14 @@ def nidlogin():
             length = len(key)
             if length <= 0 or not pattern.match(key) and length <= 0:
                 error_msg = '일회용 로그인 번호를 입력하세요.'
-                return render_template("Login.html", mode='ones', ones_error_msg=error_msg)
             elif length < 8:
                 error_msg = '일회용 로그인 번호를 다시 입력해 주세요.<br>일회용 로그인 번호를 확인한 후 8자리 숫자를 다시 입력해 주세요.'
-                return render_template("Login.html", mode='ones', ones_error_msg=error_msg)
             else:
                 error_msg = login_ones(key)
-                if error_msg == None:
-                    return redirect(NAVER_LOGIN_FORMAT[1])
+            if error_msg != None:
                 return render_template("Login.html", mode='ones', ones_error_msg=error_msg)
+            else:
+                return redirect(NAVER_LOGIN_FORMAT[1])
         return abort(400)
 
 @app.route('/loinid')
@@ -81,6 +80,7 @@ def qrcode():
         elif 'block' in driver.execute_script('return window.reloadGuide.getAttribute("style");'):
             json = {"Status":"Failed"}
         return jsonify(json)
+    return abort(400)
 
 @app.route('/<path:path>')
 def static_file(path):
