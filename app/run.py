@@ -10,7 +10,8 @@ app = Flask(__name__)
 chromedriver = chromedriver_autoinstaller.install()
 driver = webdriver.Chrome(chromedriver)
 
-NAVER_LOGIN_URL = 'https://nid.naver.com/'
+MOBILE_NAVER_URL = 'https://m.naver.com/'
+NAVER_LOGIN_URL = 'https://nid.naver.com/nidlogin.login'
 NAVER_LOGIN_FORMAT = ['https://nid.naver.com/nidlogin.login?mode=form', 'https://nid.naver.com/nidlogin.login?mode=number', 'https://nid.naver.com/nidlogin.login?mode=qrcode']
 
 @app.route('/')
@@ -20,7 +21,7 @@ def index():
 @app.route('/nidlogin.login', methods=['GET', 'POST'])
 def nidlogin():
     if request.method == 'GET':
-        driver.get(NAVER_LOGIN_URL)
+        driver.get(NAVER_LOGIN_FORMAT[0])
         return render_template('Login.html', mode='form', form_error_msg=None)
     elif request.method == 'POST':
         mode = request.form.get('mode')
@@ -73,9 +74,9 @@ def qrcode():
         json = {"Status":"Success", "number":number, "qrImage":qrImage}
         return jsonify(json)
     elif request.method == 'POST':
-        if driver.current_url == 'https://m.naver.com/':
+        if driver.current_url == MOBILE_NAVER_URL:
             json = {"Status":"Success"}
-        elif driver.current_url == 'https://nid.naver.com/nidlogin.login?mode=qrcode':
+        elif driver.current_url == NAVER_LOGIN_FORMAT[2]:
             json = {"Status":"Waiting"}
         elif 'block' in driver.execute_script('return window.reloadGuide.getAttribute("style");'):
             json = {"Status":"Failed"}
@@ -98,7 +99,7 @@ def login_form(id, pw):
 
     driver.find_element_by_class_name('btn_login').click()
 
-    if driver.current_url == 'https://nid.naver.com/nidlogin.login':
+    if driver.current_url == NAVER_LOGIN_URL:
         msg = driver.execute_script('''
         return window.err_common.innerHTML;
         ''')
@@ -111,10 +112,10 @@ def login_ones(key):
 
     clipboard.copy(key)
     driver.find_element_by_id('disposable').send_keys(Keys.CONTROL + 'v')
-    
+
     driver.find_element_by_class_name('btn_login').click()
 
-    if driver.current_url == 'https://nid.naver.com/nidlogin.login':
+    if driver.current_url == NAVER_LOGIN_URL:
         msg = driver.execute_script('''
         return window.err_common.innerText;
         ''')
