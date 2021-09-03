@@ -21,7 +21,7 @@ def index():
 def nidlogin():
     if request.method == 'GET':
         driver.get(NAVER_LOGIN_URL)
-        return render_template('Login.html', mode='form')
+        return render_template('Login.html', mode='form', form_error_msg=None)
     elif request.method == 'POST':
         mode = request.form.get('mode')
         if mode == 'form':
@@ -87,10 +87,15 @@ def static_file(path):
 
 def login_form(id, pw):
     global driver
+
+    driver.find_element_by_id('id').send_keys(Keys.CONTROL + 'a')
+
     clipboard.copy(id)
     driver.find_element_by_id('id').send_keys(Keys.CONTROL + 'v')
+
     clipboard.copy(pw)
     driver.find_element_by_id('pw').send_keys(Keys.CONTROL + 'v')
+
     driver.find_element_by_class_name('btn_login').click()
 
     if driver.current_url == 'https://nid.naver.com/nidlogin.login':
@@ -103,8 +108,10 @@ def login_form(id, pw):
 
 def login_ones(key):
     global driver
+
     clipboard.copy(key)
     driver.find_element_by_id('disposable').send_keys(Keys.CONTROL + 'v')
+    
     driver.find_element_by_class_name('btn_login').click()
 
     if driver.current_url == 'https://nid.naver.com/nidlogin.login':
