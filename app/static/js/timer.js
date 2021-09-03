@@ -23,6 +23,7 @@ function UpdateTimer()
     time = '0' + minutes + ':';
     time += seconds < 10 ? '0' + seconds : seconds;
     window.timeStamp.innerText = time;
+    qrcode_check();
     if (TIME == 0)
     {
         window.qrImageDiv.style.display = "none";

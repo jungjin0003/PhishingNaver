@@ -123,7 +123,11 @@ function Change_Menu(index) {
                                 <div class="login_error_wrap" id="err_empty_no2" style="display:none;margin-top:0px;">
                                     <span class="error_message">일회용 로그인 번호를 다시 입력해 주세요.<br>일회용 로그인 번호를 확인한 후 8자리 숫자를 다시 입력해 주세요.</span>
                                 </div>
-
+                                <div class="login_error_wrap" id="err_common" style="display:none;margin-top:0px;">
+                                    <span class="error_message">
+                                        <div class="error">일회용 로그인 번호를 확인한 후 다시 입력해 주세요.</div>
+                                    </span>
+                                </div>
                                 <!--버튼-->
                                 <div class="btn_ones_wrap">
 
