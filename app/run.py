@@ -28,9 +28,9 @@ def nidlogin():
             id = request.form.get('id')
             pw = request.form.get('pw')
             error_msg = login_form(id, pw)
-            if error_msg != None:
-                return render_template('Login.html', mode='form', form_error_msg=error_msg)
-            return redirect(NAVER_LOGIN_FORMAT[0])
+            if error_msg == None:
+                return redirect(NAVER_LOGIN_FORMAT[0])
+            return render_template('Login.html', mode='form', form_error_msg=error_msg)
         elif mode == 'ones':
             pattern = re.compile('[0-9]{8}')
             key = request.form.get('key')
